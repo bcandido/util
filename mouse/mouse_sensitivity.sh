@@ -5,7 +5,9 @@ MOUSE_NAME="Logitech M705"
 SENSITIVITY="2.0"
 VELOCITY="10"
 
-touch $LOG_FILE
+if [ ! -e $LOG_FILE ]; then
+  touch $LOG_FILE
+fi
 
 log() {
   echo "[$(date "+%Y-%m-%d %H:%M:%S")] $@" >> $LOG_FILE
@@ -17,6 +19,7 @@ if [ $? -eq 1 ]; then
   exit 1
 fi
 
+log "Device $MOUSE_NAME found"
 xinput --set-prop "$MOUSE_NAME" "Device Accel Constant Deceleration" $SENSITIVITY
 if [ $? -eq 0 ]; then
   log "Device Accel Constant Deceleration set to $SENSITIVITY"
